@@ -1,6 +1,6 @@
 " vi:tw=0:
 "
-" $Id: rsl.vim,v 1.13 2005/06/02 20:23:27 jettero Exp $
+" $Id: rsl.vim,v 1.14 2005/06/03 20:03:16 jettero Exp $
 "
 " Intended for use with RSL scripts from droidarena.com
 "
@@ -46,6 +46,9 @@ syn match rslBranch "\(^\s*\(IFBF\|IFBT\|IFFR\|IFIN\|IFNF\|IFNV\|IFVA\|IFVI\)\s\
 syn match rslBranch "\(^\s*\(FRND\|TEST\|VISI\)\s\+\S\+\s\+\)\@<=[^;]*" " tss
 syn match rslBranch "\(^\s*\(IFEQ\|IFGT\|IFHI\|IFLO\|IFLT\|IFNE\)\s\+\S\+\s\+\S\+\s\+\)\@<=[^;]*" " tts
 syn match rslBranch "\(^\s*\(ISEQ\)\s\+\S\+\s\+\S\+\s\+\)\@<=[^;]*" " ttss
+
+" The following line is a super lame way to match event branches, but I'm apparently not very good at vimscript.
+syn match rslEvent  "\(\(CALL\|IFBF\|IFBT\|IFFR\|IFIN\|IFNF\|IFNV\|IFVA\|IFVI\|FRND\|TEST\|VISI\|IFEQ\|IFGT\|IFHI\|IFLO\|IFLT\|IFNE\|ISEQ\).*\)\@<=\<\(ATKD\|ATXXX\|DLIM\|DLOS\|DPIK\|DOLL\|EAPP\|HELP\|INIT\|MSGR\|NEXT\|POSI\|RAPP\|SEEP\|SEEE\|STEP\|WALL\)\>"
 
 " their list {{{
 " [s   ] CALL <Subroutine>
