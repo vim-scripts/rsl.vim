@@ -1,6 +1,6 @@
 " vi:tw=0:
 "
-" $Id: rsl.vim,v 1.14 2005/06/03 20:03:16 jettero Exp $
+" $Id: rsl.vim,v 1.15 2005/06/04 02:44:21 jettero Exp $
 "
 " Intended for use with RSL scripts from droidarena.com
 "
@@ -23,7 +23,9 @@ syn case ignore " There is no case, there is only zuul
 " ---------------------------------------------------------------------------------------------------------
 " command/function args
 "
-syn match rslStaticData "\(\S\+\s\+\)\@<=[^;]*"
+syn cluster	rslSpanCluster	contains=rslError,rslRegister,rslUserRegister,rslBEvent,rslLogSpecial
+
+syn match rslStaticData "\(\S\+\s\s*\)\@<=[^;]*" contains=@rslSpanCluster
 
 syn match rslError "#[a-z0-9]\+"
 syn match rslError "&[a-z0-9]\+"
@@ -41,14 +43,15 @@ syn match rslUserSection  "[[][^]]\+[]]"
 " note: we treat ts and tss identically
 " note: we treat tts and ttss identically
 
-syn match rslBranch "\(^\s*\(CALL\)\s\+\)\@<=[^;]*" " s
-syn match rslBranch "\(^\s*\(IFBF\|IFBT\|IFFR\|IFIN\|IFNF\|IFNV\|IFVA\|IFVI\)\s\+\S\+\s\+\)\@<=[^;]*" " ts
+syn match rslBranch "\(^\s*\(CALL\)\s\+\)\@<=[^;]*" contains=@rslSpanCluster " s
+syn match rslBranch "\(^\s*\(IFBF\|IFBT\|IFFR\|IFIN\|IFNF\|IFNV\|IFVA\|IFVI\)\s\+\S\+\s\+\)\@<=[^;]*" contains=@rslSpanCluster " ts
 syn match rslBranch "\(^\s*\(FRND\|TEST\|VISI\)\s\+\S\+\s\+\)\@<=[^;]*" " tss
-syn match rslBranch "\(^\s*\(IFEQ\|IFGT\|IFHI\|IFLO\|IFLT\|IFNE\)\s\+\S\+\s\+\S\+\s\+\)\@<=[^;]*" " tts
-syn match rslBranch "\(^\s*\(ISEQ\)\s\+\S\+\s\+\S\+\s\+\)\@<=[^;]*" " ttss
+syn match rslBranch "\(^\s*\(IFEQ\|IFGT\|IFHI\|IFLO\|IFLT\|IFNE\)\s\+\S\+\s\+\S\+\s\+\)\@<=[^;]*" contains=@rslSpanCluster " tts
+syn match rslBranch "\(^\s*\(ISEQ\)\s\+\S\+\s\+\S\+\s\+\)\@<=[^;]*" contains=@rslSpanCluster " ttss
 
 " The following line is a super lame way to match event branches, but I'm apparently not very good at vimscript.
-syn match rslEvent  "\(\(CALL\|IFBF\|IFBT\|IFFR\|IFIN\|IFNF\|IFNV\|IFVA\|IFVI\|FRND\|TEST\|VISI\|IFEQ\|IFGT\|IFHI\|IFLO\|IFLT\|IFNE\|ISEQ\).*\)\@<=\<\(ATKD\|ATXXX\|DLIM\|DLOS\|DPIK\|DOLL\|EAPP\|HELP\|INIT\|MSGR\|NEXT\|POSI\|RAPP\|SEEP\|SEEE\|STEP\|WALL\)\>"
+syn match rslBEvent     "\(\(CALL\|IFBF\|IFBT\|IFFR\|IFIN\|IFNF\|IFNV\|IFVA\|IFVI\|FRND\|TEST\|VISI\|IFEQ\|IFGT\|IFHI\|IFLO\|IFLT\|IFNE\|ISEQ\).*\)\@<=\<\(ATKD\|ATXXX\|DLIM\|DLOS\|DPIK\|DOLL\|EAPP\|HELP\|INIT\|MSGR\|NEXT\|POSI\|RAPP\|SEEP\|SEEE\|STEP\|WALL\)\>"
+syn match rslLogSpecial "\(LOG\s\+\)\@<=\<\(HP\|BOTPOS\|TICK\)\>"
 
 " their list {{{
 " [s   ] CALL <Subroutine>
@@ -94,7 +97,8 @@ syn match rslConditional "^\s*\<\(IFNE\|IFNF\|IFNV\|IFVA\|IFVI\|ISEQ\|VISI\|TEST
 " ---------------------------------------------------------------------------------------------------------
 " additional user spew
 "
-syn match rslComment ";.*$"
+syn match rslComment ";.*$" contains=rslTodo
+syn match rslTodo    "\(FIXME\|TODO\)"
 
 " ---------------------------------------------------------------------------------------------------------
 " Define the default highlighting.
@@ -116,14 +120,18 @@ if version >= 508 || !exists("did_pike_syntax_inits")
   HiLink rslConditional Conditional
 
   HiLink rslEvent       Type
+  HiLink rslBEvent      Type
   HiLink rslUserSection PreProc
   HiLink rslBranch      PreProc
 
   HiLink rslRegister     Special
   HiLink rslUserRegister Identifier
 
-  HiLink rslStaticData   String 
+ "HiLink rslStaticData   String 
+  HiLink rslLogSpecial   String
+
   HiLink rslComment      Comment
+  HiLink rslTodo         Todo
 
   delcommand HiLink
 endif
