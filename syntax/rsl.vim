@@ -1,6 +1,6 @@
 " vi:tw=0:
 "
-" $Id: rsl.vim,v 1.15 2005/06/04 02:44:21 jettero Exp $
+" $Id: rsl.vim,v 1.17 2005/06/21 12:44:35 jettero Exp $
 "
 " Intended for use with RSL scripts from droidarena.com
 "
@@ -20,12 +20,12 @@ endif
 
 syn case ignore " There is no case, there is only zuul
 
+syn match rslStaticData "." contains=ALL
+
 " ---------------------------------------------------------------------------------------------------------
 " command/function args
 "
 syn cluster	rslSpanCluster	contains=rslError,rslRegister,rslUserRegister,rslBEvent,rslLogSpecial
-
-syn match rslStaticData "\(\S\+\s\s*\)\@<=[^;]*" contains=@rslSpanCluster
 
 syn match rslError "#[a-z0-9]\+"
 syn match rslError "&[a-z0-9]\+"
@@ -89,7 +89,7 @@ syn match rslFunction    "^\s*\<\(GATR\|GDIS\|GPOS\|GRPS\|INVA\|LSMG\|LRID\|NEAR
 syn match rslProperty    "^\s*\<\(ATPR\|BHVR\|DMLT\)\>"
                         
 syn match rslCommand     "^\s*\<\(AAID\|ATAK\|ESCP\|FRND\|FLEE\|FOLL\|GOTO\|HALT\)\>"
-syn match rslCommand     "^\s*\<\(SOS\|TURN\|VAL\|WAIT\|LOG\|SHOT\|SMSG\)\>"
+syn match rslCommand     "^\s*\<\(SOS\|TURN\|VAL\|WAIT\|LOG\|SHOT\|LMSG\|SMSG\)\>"
 
 syn match rslConditional "^\s*\<\(IFBF\|IFBT\|IFEQ\|IFFR\|IFGT\|IFHI\|IFIN\|IFLO\|IFLT\)\>"
 syn match rslConditional "^\s*\<\(IFNE\|IFNF\|IFNV\|IFVA\|IFVI\|ISEQ\|VISI\|TEST\|CALL\)\>" " includes the branch
