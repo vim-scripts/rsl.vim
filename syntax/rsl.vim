@@ -1,6 +1,6 @@
 " vi:tw=0:
 "
-" $Id: rsl.vim,v 1.17 2005/06/21 12:44:35 jettero Exp $
+" $Id: rsl.vim,v 1.18 2005/06/28 15:01:46 jettero Exp $
 "
 " Intended for use with RSL scripts from droidarena.com
 "
@@ -87,6 +87,8 @@ syn match rslEvent       "[[]\<\(NEXT\|POSI\|RAPP\|SEEP\|SEEE\|STEP\|WALL\)\>[]]
 syn match rslFunction    "^\s*\<\(_ADD\|_DIV\|_MUL\|_SET\|_SUB\|ALLY\|BSET\|CNAM\|COPY\|CPID\|CPOS\)\>"
 syn match rslFunction    "^\s*\<\(GATR\|GDIS\|GPOS\|GRPS\|INVA\|LSMG\|LRID\|NEAR\|QBHV\|SNMY\)\>"
 syn match rslProperty    "^\s*\<\(ATPR\|BHVR\|DMLT\)\>"
+
+syn match rslError       "\(\<\(_SUB\|_ADD\|_DIV\|_MUL\)\>.*\)\@<=\<[0-9]\+\>" " you can't do math on numbers (lame)
                         
 syn match rslCommand     "^\s*\<\(AAID\|ATAK\|ESCP\|FRND\|FLEE\|FOLL\|GOTO\|HALT\)\>"
 syn match rslCommand     "^\s*\<\(SOS\|TURN\|VAL\|WAIT\|LOG\|SHOT\|LMSG\|SMSG\)\>"
@@ -98,6 +100,7 @@ syn match rslConditional "^\s*\<\(IFNE\|IFNF\|IFNV\|IFVA\|IFVI\|ISEQ\|VISI\|TEST
 " additional user spew
 "
 syn match rslComment ";.*$" contains=rslTodo
+syn match rslError   "\(^\s*[[].*[]]\s*\)\@<=;.*$" " you can't put a comment on section line, cuz the section won't execute (lame)
 syn match rslTodo    "\(FIXME\|TODO\)"
 
 " ---------------------------------------------------------------------------------------------------------
